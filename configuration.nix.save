@@ -1,0 +1,119 @@
+{ config, pkgs, lib, ... }:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
+  hardware.bluetooth.enable = false;
+
+  # Bootloader
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # Networking
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
+
+  # Timezone / locale
+  time.timeZone = "Asia/Yerevan";
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "hy_AM";
+    LC_IDENTIFICATION = "hy_AM";
+    LC_MEASUREMENT = "hy_AM";
+    LC_MONETARY = "hy_AM";
+    LC_NAME = "hy_AM";
+    LC_NUMERIC = "hy_AM";
+    LC_PAPER = "hy_AM";
+    LC_TELEPHONE = "hy_AM";
+    LC_TIME = "hy_AM";
+  };
+
+  # X11 + XFCE
+   services.xserver.enable = true;
+   services.xserver.displayManager.lightdm.enable = false;
+   services.xserver.desktopManager.xfce.enable = true;
+   services.xserver.displayManager.startx.enable = true;
+
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  services.xserver.displayManager.sessionCommands = ''
+  ${pkgs.xorg.xmodmap}/bin/xmodmap -e "remove Lock = Caps_Lock"
+  ${pkgs.xorg.xmodmap}/bin/xmodmap -e "keysym Caps_Lock = BackSpace"
+  
+  # Map Tab to Control
+  ${pkgs.xorg.xmodmap}/bin/xmodmap -e "remove Control = Control_L"
+  ${pkgs.xorg.xmodmap}/bin/xmodmap -e "keysym Tab = Control_L"
+  ${pkgs.xorg.xmodmap}/bin/xmodmap -e "add Control = Control_L"
+
+  # Map the "weird" key to Tab
+  # Replacing '102' with your actual keycode (see below)
+  ${pkgs.xorg.xmodmap}/bin/xmodmap -e "keycode 94 = Tab" 
+'';
+
+console.useXkbConfig = true;
+
+  # General graphics support
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  # Sound
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  # Printing
+  services.printing.enable = true;
+
+  # User
+  users.users.bhowes = {
+    isNormalUser = true;
+    description = "Benjamin Howes";
+    extraGroups = [ "networkmanager" "wheel" ];
+  };
+
+  # Programs
+  nixpkgs.config.allowUnfree = true;
+
+  programs.firefox.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    bash
+    xclip
+    go
+    opam
+    emacs
+
+    git
+    gcc
+    rustup
+    cargo
+    gnumake
+    pkg-config
+
+    xorg.xinit
+    xorg.xmodmap
+    xorg.xev
+    
+    alacritty
+    tmux
+    gdb
+    radare2
+    devilspie2
+  ];
+
+  system.stateVersion = "25.11";
+}
