@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
 	
     ./system/boot.nix		# Boot configurations
+    ./system/graphics.nix	# NVIDIA!!!!!!
     ./system/hardware.nix	# Hardware configurations
     ./system/locale.nix		# Locale configurations
     ./system/printing.nix	# Printing configurations?
@@ -23,6 +24,11 @@
     ./programs/extra.nix	# Extra/miscellaneous packages
     ./programs/fonts.nix	# Font-related packages
   ];
+
+  fileSystems."/games" = {
+    device = "/dev/disk/by-label/games";
+    fsType = "ext4";
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
