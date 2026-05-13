@@ -12,6 +12,7 @@
     ./users/bhowes.nix		# User configurations
     
     ./desktop/xfce.nix		# X11 + Xfce configuration
+    ./desktop/keyboard.nix	# Keyboard remaps
 				
     ./services/audio.nix	# Audio configurations
     ./services/networking.nix	# Networking configurations (Includes hostname)

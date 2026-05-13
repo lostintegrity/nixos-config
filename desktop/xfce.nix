@@ -10,8 +10,9 @@
   services.xserver.desktopManager.xfce.enable = true;
   
   services.xserver.xkb = {
-  	layout = "us";
-	variant = "";
+    layout = "us";
+    variant = "";
+    options = "caps:backspace";
   };
   
   console.useXkbConfig = true;
