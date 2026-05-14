@@ -8,9 +8,14 @@
     mpv
     
     kdePackages.okular
+    heroic
   ];
   
   services.flatpak.packages = [
     "com.opera.Opera"
+  ];
+
+  programs.steam.extraCompatPackages = with pkgs; [
+    proton-ge-bin
   ];
 }

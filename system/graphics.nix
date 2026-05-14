@@ -5,31 +5,31 @@
     enable = true;
     enable32Bit = true;
   };
-    
+ 
+  boot.blacklistedKernelModules = [ "nouveau" ];
+   
   services.xserver.videoDrivers = [
-    "modesetting"
+#    "modesetting"
     "nvidia"
   ];
     
   hardware.nvidia = {
     modesetting.enable = true;
+    dynamicBoost.enable = true;
      
-    open = true;
+    open = false;
      
     nvidiaSettings = true;
     
     package = config.boot.kernelPackages.nvidiaPackages.production;
      
-    powerManagement = {
-      enable = true;
-      finegrained = true;
-    };
+    powerManagement.enable = false;
     
     prime = {
-      offload = {
-        enable = true;
-	enableOffloadCmd = true;
-      };
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
       
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
