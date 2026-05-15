@@ -22,10 +22,13 @@
 
             // Tab -> Control
             key <TAB> { [ Control_L ] };
-            modifier_map Control { <TAB> };
+	    
+	    // Control -> Control
+	    key <LCTL> { [Control_L] };
 
-            // The key currently known as keycode 94 is usually <LSGT>
-            // on many ISO keyboards. Make it Tab.
+            modifier_map Control { <TAB>, <LCTL> };
+
+	    // Weird_Key -> Tab
             key <LSGT> { [ Tab, ISO_Left_Tab ] };
           };
         '';

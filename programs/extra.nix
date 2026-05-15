@@ -5,9 +5,10 @@
   services.flatpak.enable = true;
 
   environment.systemPackages = with pkgs; [
-    mpv
-    
+    mpv    
     kdePackages.okular
+    
+    discord
     heroic
   ];
   
